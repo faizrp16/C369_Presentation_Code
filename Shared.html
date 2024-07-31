@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Wallet Social Media Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        p {
+            margin-top: 5px;
+            font-size: 16px;
+        }
+        .form-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: block;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function addUser() {
+            const container = document.getElementById('userInputs');
+            const inputGroup = document.createElement('div');
+            inputGroup.classList.add('input-group');
+
+            const label = document.createElement('label');
+            label.textContent = 'Enter your financial goal: ';
+            inputGroup.appendChild(label);
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'financialGoal[]';
+            input.required = true;
+            inputGroup.appendChild(input);
+
+            container.appendChild(inputGroup);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Website</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="Wallet.html">Wallet</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+                <li><a href="Transactions.html">Transactions</a></li>
+                <li><a href="Goals.html">Goals</a></li>
+            </ul>
+        </nav>
+    </header>
+    <header>
+        <h1>Social Media Integrated Digital Wallet</h1>
+        <p>Input your financial goals and collaborate with peers.</p>
+    </header>
+    <section class="form-section">
+        <form action="/submit-goals" method="POST">
+            <div id="userInputs">
+                <div class="input-group">
+                    <label for="financialGoal[]">Enter your financial goal: </label>
+                    <input type="text" name="financialGoal[]" required>
+                </div>
+            </div>
+            <button type="button" onclick="addUser()">Add Another Goal</button>
+            <button type="submit">Submit Goals</button>
+        </form>
+    </section>
+    <footer>
+        <p>Thank you for using our Digital Wallet platform!</p>
+    </footer>
+</body>
+</html>

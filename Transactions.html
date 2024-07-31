@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Navbar Styles */
+        header {
+            background-color: #003366;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        /* Container Styles */
+        .container {
+            margin-top: 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem;
+        }
+
+        .list-group-item {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            margin-top: 10px;
+        }
+
+        .mx-2 {
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo"> Logo</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="Wallet.html">Wallet</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+                <li><a href="Transactions.html">Transactions</a></li>
+                <li><a href="Shared.html">Goals</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="text-center">Transaction History</h1>
+        <ul class="list-group mt-4" id="transactionList">
+            <!-- Transactions will be dynamically loaded here -->
+        </ul>
+    </div>
+
+    <div class="container mt-4">
+        <h2 class="text-center">Add Transaction</h2>
+        <form id="transactionForm" class="mt-4">
+            <div class="form-group">
+                <label for="userId">User ID</label>
+                <input type="text" id="userId" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" id="description" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary" onclick="generateRandomNumber()">Generate Random Number</button>
+                <label for="randomNumber">Random Number</label>
+                <input type="text" id="randomNumber" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <label for="verifyNumber">Verify Number</label>
+                <input type="text" id="verifyNumber" class="form-control" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="addTransaction()">Transfer</button>
+        </form>
+    </div>
+
+    <script>
+        let generatedNumber;
+
+        function loadTransactions() {
+            const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            const transactionList = document.getElementById('transactionList');
+            transactionList.innerHTML = '';
+
+            transactions.forEach((transaction, index) => {
+                const transactionItem = document.createElement('li');
+                transactionItem.classList.add('list-group-item');
+                transactionItem.innerHTML = `
+                    <strong>User ID: ${transaction.userId}</strong><br>
+                    <strong>Date: ${transaction.date}</strong><br>
+                    <strong>Amount:</strong> $${transaction.amount}<br>
+                    <strong>Description:</strong> ${transaction.description}<br>
+                    <button class="btn btn-danger mt-2" onclick="deleteTransaction(${index})">Delete</button>
+                `;
+                transactionList.appendChild(transactionItem);
+            });
+        }
+
+        function generateRandomNumber() {
+            generatedNumber = Math.floor(Math.random() * 1000000);
+            document.getElementById('randomNumber').value = generatedNumber;
+            alert(`Generated Number: ${generatedNumber}`);
+        }
+
+        function addTransaction() {
+            const userId = document.getElementById('userId').value;
+            const date = document.getElementById('date').value;
+            const amount = document.getElementById('amount').value;
+            const description = document.getElementById('description').value;
+            const verifyNumber = document.getElementById('verifyNumber').value;
+
+            if (userId && date && amount && description && verifyNumber) {
+                if (parseInt(verifyNumber) === generatedNumber) {
+                    const transaction = { userId, date, amount, description };
+                    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+                    transactions.push(transaction);
+                    localStorage.setItem('transactions', JSON.stringify(transactions));
+                    loadTransactions();
+                    alert('Transaction added successfully');
+                    document.getElementById('transactionForm').reset();
+                } else {
+                    alert('The verification number does not match. Please try again.');
+                }
+            } else {
+                alert('Please fill out all fields');
+            }
+        }
+
+        function deleteTransaction(index) {
+            const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            transactions.splice(index, 1);
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            loadTransactions();
+        }
+
+        window.onload = loadTransactions;
+    </script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+<br><br><br><br><br>
+<footer>
+    <p>&copy; 2024 My Website</p>
+</footer>
+</html>
